@@ -63,7 +63,8 @@ def run(
     print(blog_markdown)
     if markdown_directory:
         markdown_file = markdown_directory / f"{DATE}.md"
-        markdown_file.write_text(blog_markdown)
+        with markdown_file.open("w+") as markdown_handle:
+            markdown_handle.write(blog_markdown)
 
 
 @click.command()

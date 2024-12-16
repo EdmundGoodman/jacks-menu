@@ -107,6 +107,7 @@ def get_menu_text(
         menu_text = Path(tmp_handle.name).read_text()
 
     if output_file is not None:
-        output_file.write_text(menu_text)
+        with output_file.open("w+") as output_handle:
+            output_handle.write(menu_text)
 
     return menu_text
