@@ -7,7 +7,7 @@ from pathlib import Path
 import click
 
 from jacks_menu.menu import Menu
-from jacks_menu.website import get_iframe_doc_id, get_menu_text, MenuRetrievalError
+from jacks_menu.website import get_iframe_doc_id, get_menu_text, MenuRetrievalError, MismatchedDocIdError
 from jacks_menu.parser import parse_menu, MenuParseError
 from jacks_menu.constants import (
     MENU_LOCATIONS,
@@ -50,7 +50,7 @@ def run(
             )
             menu = parse_menu(location, web, menu_text)
             menu_markdown = get_menu_markdown(menu)
-        except (MenuRetrievalError, MenuParseError) as err:
+        except (MenuRetrievalError, MenuParseError, MismatchedDocIdError) as err:
             if fail_on_error:
                 raise err
             menu_markdown = get_error_markdown(location, web)

@@ -18,4 +18,4 @@ TEST_MENU_DIRECTORY = Path(__file__).parent / "test_menus"
 def test_parse_menu(menu_file: Path) -> None:
     """Test that valid menus can be parsed without error."""
     menu_text = menu_file.read_text()
-    parse_menu("location", menu_text)
+    parse_menu("location", "url", menu_text)

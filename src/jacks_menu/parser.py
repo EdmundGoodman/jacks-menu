@@ -20,14 +20,13 @@ class MenuParseError(Exception):
     """Custom error for parsing logic failing on the menu data."""
 
 
-def parse_menu(location: str, web: str, menu_text: str, verbose: bool = False) -> Menu:
+def parse_menu(location: str, web: str, menu_text: str) -> Menu:
     """Parse the menu data.
 
     Args:
         location: The location of the menu.
         web: The web address of the menu.
         menu_text: The menu text to parse.
-        verbose: Whether to print the state machine for each parsed line.
 
     Returns:
         The parsed menu.
@@ -39,9 +38,6 @@ def parse_menu(location: str, web: str, menu_text: str, verbose: bool = False) -
     menu_parse_state = MenuParseState.Date
 
     for line in lines:
-        if verbose:
-            print(menu_parse_state, line)
-
         if menu_parse_state == MenuParseState.Date:
             # Last non-empty line before dash is the date
             if line == "-":
