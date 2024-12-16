@@ -1,6 +1,6 @@
 [project]
 name = "jacks-menu"
-version = "0.1.0"
+version = "0.1.1"
 description = "A tool to scrape the Jack's Gelato menu"
 readme = "README.md"
 authors = [

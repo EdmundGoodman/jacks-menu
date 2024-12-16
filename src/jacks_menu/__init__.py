@@ -69,14 +69,14 @@ def run(
 @click.option(
     "-r",
     "--raw",
-    type=click.Path(dir_okay=False),
+    type=click.Path(dir_okay=True),
     default=None,
     help="The directory to output the raw menu file to, if unset it is discarded.",
 )
 @click.option(
     "-m",
     "--markdown",
-    type=click.Path(dir_okay=False),
+    type=click.Path(dir_okay=True),
     default=None,
     help="The directory to output the generated markdown menus to, if unset it is only printed.",
 )
@@ -102,19 +102,19 @@ def run(
     help="Show verbose output about downloading the menu.",
 )
 def main(
-    raw: Path | None,
-    markdown: Path | None,
+    raw: str | None,
+    markdown: str | None,
     retrieve_doc_id: bool,
     fail_on_error: bool,
     verbose: bool,
 ) -> None:
-    """The CLI for the tool."""
+    """A script to scrape the Jack's Gelato menu website."""
     run(
-        raw_directory=raw,  # BASE_RAW_DIRECTORY,
-        markdown_directory=markdown,  # BASE_MARKDOWN_DIRECTORY,
-        retrieve_doc_id=retrieve_doc_id,  # False,
-        fail_on_error=fail_on_error,  # False,
-        verbose=verbose,  # True,
+        raw_directory=Path(raw) if raw else None,
+        markdown_directory=Path(markdown) if markdown else None,
+        retrieve_doc_id=retrieve_doc_id,
+        fail_on_error=fail_on_error,
+        verbose=verbose,
     )
 
 
