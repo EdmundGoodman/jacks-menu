@@ -14,6 +14,7 @@ dependencies = [
     "gdown>=5.2.0",
     "setuptools>=75.6.0",
     "python-dateutil>=2.9.0.post0",
+    "click>=8.1.7",
 ]
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",

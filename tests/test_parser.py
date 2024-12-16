@@ -1,17 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""."""
+"""Test the menu parser."""
 
 from pathlib import Path
 
-from jacks_menu.menu import Menu
-from jacks_menu.parser import MenuParseState, MenuParseError, parse_menu
+import pytest
+
+from jacks_menu.parser import parse_menu
+
 
 TEST_MENU_DIRECTORY = Path(__file__).parent / "test_menus"
 
-def test_parse_menu():
-    """."""
-    # raise ValueError(TEST_MENU_DIRECTORY)
-    for menu_file in TEST_MENU_DIRECTORY.iterdir():
-        menu_text = menu_file.read_text()
-        parse_menu("location", menu_text)
+
+@pytest.mark.parametrize(
+    "menu_file", list(TEST_MENU_DIRECTORY.iterdir())
+)
+def test_parse_menu(menu_file: Path) -> None:
+    """Test that valid menus can be parsed without error."""
+    menu_text = menu_file.read_text()
+    parse_menu("location", menu_text)

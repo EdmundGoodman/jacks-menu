@@ -1,3 +1,6 @@
+# Project specific excludes
+outputs/
+
 # Editor files
 .idea/
 .vscode/
