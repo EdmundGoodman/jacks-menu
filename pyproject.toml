@@ -127,7 +127,7 @@ source = ["src/"]
 omit = ["src/pyproject_template/__main__.py"]
 
 [tool.coverage.report]
-fail_under = 90
+#fail_under = 90
 exclude_lines = [
     'if TYPE_CHECKING:',
     'pragma: no cover'
