@@ -6,6 +6,7 @@ from pathlib import Path
 
 import click
 
+from jacks_menu.__version__ import VERSION
 from jacks_menu.constants import (
     DATE,
     LOCATIONS_SANITISED,
@@ -101,6 +102,7 @@ def run(
     default=False,
     help="Show verbose output about downloading the menu.",
 )
+@click.version_option(VERSION)
 def main(
     raw: str | None,
     markdown: str | None,

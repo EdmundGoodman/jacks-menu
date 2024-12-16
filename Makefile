@@ -24,6 +24,11 @@ test: .venv/
 run: .venv/
 	uv run jacks-menu
 
+.PHONY: publish
+publish:
+	uv build
+	uv publish
+
 .PHONY: docs
 docs: .venv/
 	uv run mkdocs build --strict
