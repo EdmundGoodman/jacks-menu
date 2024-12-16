@@ -2,10 +2,9 @@
 # -*- coding: utf-8 -*-
 """."""
 
-from jacks_menu.constants import NAMED_DATES
-from jacks_menu.menu import Menu
-from datetime import datetime, timezone
 from enum import Enum, auto
+
+from jacks_menu.menu import Menu
 
 
 class MenuParseState(Enum):
@@ -49,9 +48,10 @@ def parse_menu(location: str, web: str, menu_text: str) -> Menu:
             if line.startswith("Single Scoop"):
                 menu_parse_state = MenuParseState.Done
                 break
-            elif line:
+            if line:
                 items.append(line)
 
     if menu_parse_state != MenuParseState.Done:
         raise MenuParseError("Could not parse menu!")
+    assert date is not None
     return Menu(location, web, date, items)

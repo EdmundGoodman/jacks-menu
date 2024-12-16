@@ -5,7 +5,6 @@
 from jacks_menu.constants import DATE, NOW
 from jacks_menu.menu import Menu
 
-
 HEADER = f"""---
 title: "Jack's Gelato Menus"
 author: "Edmund Goodman"
@@ -26,10 +25,8 @@ ERROR_MESSAGE = (
 )
 
 
-def markdown_wrap_contents(
-    location: str, web: str, date: str, contents: str
-) -> str:
-    """Wrap
+def markdown_wrap_contents(location: str, web: str, date: str, contents: str) -> str:
+    """Wrap the markdown contents with a subheading.
 
     Args:
         location: The location of the menu.
@@ -49,18 +46,16 @@ def get_menu_markdown(menu: Menu) -> str:
         menu.location,
         menu.web,
         menu.date,
-        "\n".join(f"- {item}" for item in menu.items)
+        "\n".join(f"- {item}" for item in menu.items),
     )
 
 
 def get_error_markdown(location: str, web: str) -> str:
     """Get a markdown representation of the error."""
-    return markdown_wrap_contents(
-        location, web, DATE, ERROR_MESSAGE
-    )
+    return markdown_wrap_contents(location, web, DATE, ERROR_MESSAGE)
 
 
 def get_blog_markdown(menus_markdown: dict[str, str]) -> str:
     """Get the markdown for the blog containing all menus."""
-    joined_menus_markdown = '\n'.join(menus_markdown.values())
+    joined_menus_markdown = "\n".join(menus_markdown.values())
     return f"{HEADER}{joined_menus_markdown}{FOOTER}"

@@ -4,7 +4,6 @@
 
 from datetime import datetime, timezone
 
-
 NOW = datetime.now(timezone.utc)
 DATE = datetime.strftime(NOW, "%y_%m_%d")
 
@@ -21,10 +20,4 @@ LOCATIONS_SANITISED: dict[str, str] = {
 MENU_KNOWN_IDS: dict[str, str] = {
     "Bene't Street": "1dVYB7lnBgWE0bPhc9SFz0aLrkDfSCulrMctW1gDfCA8",
     "All Saints": "1kDBSxPb8X4L2TKXWUmm2A-VGuPVTyxmfbq9iwUQQ2nc",
-}
-
-NAMED_DATES: set[str] = {
-    "Halloween",
-    "All Saints Day",
-    "Guy Fawkes",
 }

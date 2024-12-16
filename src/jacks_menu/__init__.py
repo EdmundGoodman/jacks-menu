@@ -6,16 +6,20 @@ from pathlib import Path
 
 import click
 
-from jacks_menu.menu import Menu
-from jacks_menu.website import get_iframe_doc_id, get_menu_text, MenuRetrievalError, MismatchedDocIdError
-from jacks_menu.parser import parse_menu, MenuParseError
 from jacks_menu.constants import (
-    MENU_LOCATIONS,
+    DATE,
     LOCATIONS_SANITISED,
     MENU_KNOWN_IDS,
-    DATE
+    MENU_LOCATIONS,
 )
-from jacks_menu.export import get_menu_markdown, get_error_markdown, get_blog_markdown
+from jacks_menu.export import get_blog_markdown, get_error_markdown, get_menu_markdown
+from jacks_menu.parser import MenuParseError, parse_menu
+from jacks_menu.website import (
+    MenuRetrievalError,
+    MismatchedDocIdError,
+    get_iframe_doc_id,
+    get_menu_text,
+)
 
 
 def run(
@@ -30,17 +34,14 @@ def run(
 
     for location, web in MENU_LOCATIONS.items():
         raw_file = (
-            None if raw_directory is None else
-            raw_directory / f"{DATE}_{LOCATIONS_SANITISED[location]}.txt"
+            None
+            if raw_directory is None
+            else raw_directory / f"{DATE}_{LOCATIONS_SANITISED[location]}.txt"
         )
 
         doc_id = MENU_KNOWN_IDS[location]
         if retrieve_doc_id:
-            doc_id = get_iframe_doc_id(
-                web,
-                expected_doc_id=doc_id,
-                verbose=verbose
-            )
+            doc_id = get_iframe_doc_id(web, expected_doc_id=doc_id, verbose=verbose)
 
         try:
             menu_text = get_menu_text(
@@ -52,7 +53,7 @@ def run(
             menu_markdown = get_menu_markdown(menu)
         except (MenuRetrievalError, MenuParseError, MismatchedDocIdError) as err:
             if fail_on_error:
-                raise err
+                raise err  # noqa: TRY201
             menu_markdown = get_error_markdown(location, web)
 
         menus_markdown[location] = menu_markdown
@@ -66,24 +67,39 @@ def run(
 
 @click.command()
 @click.option(
-    "-r", "--raw", type=click.Path(dir_okay=False), default=None,
-    help="The directory to output the raw menu file to, if unset it is discarded."
+    "-r",
+    "--raw",
+    type=click.Path(dir_okay=False),
+    default=None,
+    help="The directory to output the raw menu file to, if unset it is discarded.",
 )
 @click.option(
-    "-m", "--markdown", type=click.Path(dir_okay=False), default=None,
-    help="The directory to output the generated markdown menus to, if unset it is only printed."
+    "-m",
+    "--markdown",
+    type=click.Path(dir_okay=False),
+    default=None,
+    help="The directory to output the generated markdown menus to, if unset it is only printed.",
 )
 @click.option(
-    "-d", "--retrieve-doc-id", is_flag=True, default=False,
-    help="Retrieve (slowly...) the Jack's Gelato menu doc ID with selenium."
+    "-d",
+    "--retrieve-doc-id",
+    is_flag=True,
+    default=False,
+    help="Retrieve (slowly...) the Jack's Gelato menu doc ID with selenium.",
 )
 @click.option(
-    "-e", "--fail-on-error", is_flag=True, default=False,
-    help="Abort and give a non-zero exit code if an error occurs."
+    "-e",
+    "--fail-on-error",
+    is_flag=True,
+    default=False,
+    help="Abort and give a non-zero exit code if an error occurs.",
 )
 @click.option(
-    "-v", "--verbose", is_flag=True, default=False,
-    help="Show verbose output about downloading the menu."
+    "-v",
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Show verbose output about downloading the menu.",
 )
 def main(
     raw: Path | None,
@@ -94,11 +110,11 @@ def main(
 ) -> None:
     """."""
     run(
-        raw_directory=raw, #BASE_RAW_DIRECTORY,
-        markdown_directory=markdown, #BASE_MARKDOWN_DIRECTORY,
-        retrieve_doc_id=retrieve_doc_id, #False,
-        fail_on_error=fail_on_error, #False,
-        verbose=verbose #True,
+        raw_directory=raw,  # BASE_RAW_DIRECTORY,
+        markdown_directory=markdown,  # BASE_MARKDOWN_DIRECTORY,
+        retrieve_doc_id=retrieve_doc_id,  # False,
+        fail_on_error=fail_on_error,  # False,
+        verbose=verbose,  # True,
     )
 
 

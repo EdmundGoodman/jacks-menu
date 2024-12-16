@@ -4,6 +4,7 @@
 
 from dataclasses import dataclass
 
+
 @dataclass
 class Menu:
     """Dataclass containing the menu date and items."""

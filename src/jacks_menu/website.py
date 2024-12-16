@@ -2,17 +2,16 @@
 # -*- coding: utf-8 -*-
 """."""
 
-from time import sleep
+from collections.abc import Generator
 from contextlib import contextmanager
-from re import match as re_match
-from typing import ContextManager
-from tempfile import NamedTemporaryFile
 from pathlib import Path
+from re import match as re_match
+from tempfile import NamedTemporaryFile
+from time import sleep
 
 import gdown
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from seleniumwire import webdriver
-
 
 GOOGLE_DOC_PATTERN = r"https://docs.google.com/document/d/(.*)/preview"
 WIX_DOC_ID = "11pi6xxtRoM2rF9XlgVhe46UQqCVbBrtqk2YBBwPkKN4"
@@ -27,7 +26,7 @@ class MismatchedDocIdError(Exception):
 
 
 @contextmanager
-def headless_firefox_driver() -> ContextManager[webdriver.Firefox]:
+def headless_firefox_driver() -> Generator[webdriver.Firefox, None, None]:  # type: ignore[no-any-unimported]
     """Context manager for a headless firefox driver."""
     options = FirefoxOptions()
     options.add_argument("--headless")
@@ -38,7 +37,9 @@ def headless_firefox_driver() -> ContextManager[webdriver.Firefox]:
         driver.quit()
 
 
-def get_iframe_doc_id(url: str, expected_doc_id: str | None, verbose: bool = False) -> str:
+def get_iframe_doc_id(
+    url: str, expected_doc_id: str | None, verbose: bool = False
+) -> str:
     """Get the Google doc id for a Jack's Gelato menu iFrame.
 
     Args:
@@ -77,9 +78,7 @@ def get_iframe_doc_id(url: str, expected_doc_id: str | None, verbose: bool = Fal
 
 
 def get_menu_text(
-    doc_id: str,
-    output_file: Path | None = None,
-    verbose: bool = False
+    doc_id: str, output_file: Path | None = None, verbose: bool = False
 ) -> str:
     """Get the text content of menu given its Google doc id.
 
