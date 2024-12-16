@@ -17,13 +17,20 @@ check: .venv/
 
 .PHONY: test
 test: .venv/
-	@echo "Running tests:"
-	@uv run coverage run -m pytest -s &&\
+	uv run coverage run -m pytest -s &&\
  		uv run coverage report -m
 
 .PHONY: run
 run: .venv/
 	uv run jacks-menu
+
+.PHONY: docs
+docs: .venv/
+	uv run mkdocs build --strict
+
+.PHONY: view_docs
+view_docs:
+	@open site/index.html
 
 .PHONY: clean
 clean:

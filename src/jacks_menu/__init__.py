@@ -108,7 +108,7 @@ def main(
     fail_on_error: bool,
     verbose: bool,
 ) -> None:
-    """."""
+    """The CLI for the tool."""
     run(
         raw_directory=raw,  # BASE_RAW_DIRECTORY,
         markdown_directory=markdown,  # BASE_MARKDOWN_DIRECTORY,
