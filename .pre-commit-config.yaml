@@ -31,7 +31,6 @@ repos:
       - id: check-executables-have-shebangs
       - id: check-shebang-scripts-are-executable
       - id: debug-statements
-      - id: fix-encoding-pragma
 
   # Run the ruff linter
   - repo: https://github.com/astral-sh/ruff-pre-commit

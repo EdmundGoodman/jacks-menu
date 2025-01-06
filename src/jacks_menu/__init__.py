@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """A tool to scrape the Jack's Gelato menu."""
 
 from pathlib import Path
@@ -37,7 +36,7 @@ def run(
         raw_file = (
             None
             if raw_directory is None
-            else raw_directory / f"{DATE}_{LOCATIONS_SANITISED[location]}.txt"
+            else raw_directory / f"{DATE}__{LOCATIONS_SANITISED[location]}.txt"
         )
 
         doc_id = MENU_KNOWN_IDS[location]
