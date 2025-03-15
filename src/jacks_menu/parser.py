@@ -18,6 +18,20 @@ class MenuParseError(Exception):
     """Custom error for parsing logic failing on the menu data."""
 
 
+def neaten_date(date: str) -> str:
+    """Neaten the date field.
+
+    This includes remove leading spaces before commas.
+
+    Args:
+        date: The date to neaten
+
+    Returns:
+        The neatened date
+    """
+    return ", ".join([s.strip() for s in date.split(", ")])
+
+
 def parse_menu(location: str, web: str, menu_text: str) -> Menu:
     """Parse the menu data.
 
@@ -38,13 +52,13 @@ def parse_menu(location: str, web: str, menu_text: str) -> Menu:
     for line in lines:
         if menu_parse_state == MenuParseState.Date:
             # Last non-empty line before dash is the date
-            if line == "-":
+            if line in ("-", "–"):  # noqa: RUF001
                 menu_parse_state = MenuParseState.Items
             elif line:
-                date = line
+                date = neaten_date(line)
         elif menu_parse_state == MenuParseState.Items:
             # All non-empty lines before "Single scoop" are items
-            if line.startswith("Single Scoop"):
+            if line.lower().startswith("single scoop"):
                 menu_parse_state = MenuParseState.Done
                 break
             if line:
