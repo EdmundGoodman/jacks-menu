@@ -1,32 +1,37 @@
 #!/usr/bin/env python3
-"""Logic to retrieve the menu from the website."""
+"""Logic to retrieve the document id from the website."""
 
 from collections.abc import Generator
 from contextlib import contextmanager
-from pathlib import Path
 from re import match as re_match
-from tempfile import NamedTemporaryFile
 from time import sleep
-
-import gdown
-from selenium.webdriver.firefox.options import Options as FirefoxOptions
-from seleniumwire import webdriver
+from typing import Any, TypeAlias
 
 GOOGLE_DOC_PATTERN = r"https://docs.google.com/document/d/(.*)/preview"
 WIX_DOC_ID = "11pi6xxtRoM2rF9XlgVhe46UQqCVbBrtqk2YBBwPkKN4"
 
-
-class MenuRetrievalError(Exception):
-    """Custom error for the menu retrieval operation failing."""
+FirefoxDriver: TypeAlias = Any
 
 
 class MismatchedDocIdError(Exception):
     """Custom error for mismatched doc ids."""
 
 
+class DocIdRetrievalError(Exception):
+    """Custom error for failing to retrieve doc ids."""
+
+
 @contextmanager
-def headless_firefox_driver() -> Generator[webdriver.Firefox, None, None]:  # type: ignore[no-any-unimported]
+def headless_firefox_driver() -> Generator[FirefoxDriver, None, None]:
     """Context manager for a headless firefox driver."""
+    try:
+        from selenium.webdriver.firefox.options import Options as FirefoxOptions
+        from seleniumwire import webdriver
+    except ModuleNotFoundError as err:
+        raise RuntimeError(
+            "Try installing the optional 'selenium' dependency group"
+        ) from err
+
     options = FirefoxOptions()
     options.add_argument("--headless")
     driver = webdriver.Firefox(options=options)
@@ -73,40 +78,4 @@ def get_iframe_doc_id(
                         )
                     return doc_id
 
-    raise MenuRetrievalError("Failed to retrieve menu Google doc id!")
-
-
-def get_menu_text(
-    doc_id: str, output_file: Path | None = None, verbose: bool = False
-) -> str:
-    """Get the text content of menu given its Google doc id.
-
-    Args:
-        doc_id: The Google doc id to get the text content from.
-        output_file: The output file to write the text content to, if set.
-        verbose: Whether to show information about the download process.
-
-    Raises:
-        MenuRetrievalError: The menu text retrieval failed.
-
-    Returns:
-        The text content of menu given its Google doc id.
-    """
-    if output_file is not None and output_file.exists():
-        if verbose:
-            print(f"Output file '{output_file}' already exists.")
-        return output_file.read_text()
-
-    url = f"https://docs.google.com/uc?id={doc_id}"
-    with NamedTemporaryFile() as tmp_handle:
-        try:
-            gdown.download(url, tmp_handle.name, format="txt", quiet=not verbose)
-        except gdown.exceptions.FileURLRetrievalError as exc:
-            raise MenuRetrievalError("Failed to retrieve menu text!") from exc
-        menu_text = Path(tmp_handle.name).read_text()
-
-    if output_file is not None:
-        with output_file.open("w+") as output_handle:
-            output_handle.write(menu_text)
-
-    return menu_text
+    raise DocIdRetrievalError("Failed to retrieve menu Google doc id!")

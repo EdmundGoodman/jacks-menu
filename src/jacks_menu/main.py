@@ -12,14 +12,17 @@ from jacks_menu.constants import (
     MENU_KNOWN_IDS,
     MENU_LOCATIONS,
 )
-from jacks_menu.export import get_blog_markdown, get_error_markdown, get_menu_markdown
-from jacks_menu.parser import MenuParseError, parse_menu
-from jacks_menu.website import (
-    MenuRetrievalError,
+from jacks_menu.doc_id import (
+    DocIdRetrievalError,
     MismatchedDocIdError,
     get_iframe_doc_id,
+)
+from jacks_menu.download import (
+    MenuRetrievalError,
     get_menu_text,
 )
+from jacks_menu.export import get_blog_markdown, get_error_markdown, get_menu_markdown
+from jacks_menu.parser import MenuParseError, parse_menu
 
 
 def run(
@@ -51,7 +54,12 @@ def run(
             )
             menu = parse_menu(location, web, menu_text)
             menu_markdown = get_menu_markdown(menu)
-        except (MenuRetrievalError, MenuParseError, MismatchedDocIdError) as err:
+        except (
+            MenuRetrievalError,
+            MenuParseError,
+            MismatchedDocIdError,
+            DocIdRetrievalError,
+        ) as err:
             if fail_on_error:
                 raise err  # noqa: TRY201
             menu_markdown = get_error_markdown(location, web)

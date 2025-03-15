@@ -8,9 +8,6 @@ authors = [
 ]
 requires-python = ">=3.10"
 dependencies = [
-    "selenium-wire>=5.1.0",
-    "selenium>=4.27.1",
-    "blinker==1.7.0",
     "gdown>=5.2.0",
     "setuptools>=75.6.0",
     "python-dateutil>=2.9.0.post0",
@@ -35,6 +32,11 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [dependency-groups]
+selenium = [
+    "selenium-wire>=5.1.0",
+    "selenium>=4.27.1",
+    "blinker==1.7.0",
+]
 dev = [
     "coverage>=7.6.9",
     "mypy>=1.13.0",
@@ -69,9 +71,12 @@ show_error_codes = true
 # Manually loosen rough edges of `mypy`, particularly for pytest fixtures
 disallow_untyped_decorators = false
 # # Explicitly allow missing imports for untyped modules where required
-# [[tool.mypy.overrides]]
-# module = "pytest.*"
-# ignore_missing_imports = true
+[[tool.mypy.overrides]]
+module = "gdown.*"
+ignore_missing_imports = true
+[[tool.mypy.overrides]]
+module = "seleniumwire.*"
+ignore_missing_imports = true
 
 [tool.ruff]
 # Support Python 3.10+.
