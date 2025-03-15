@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""."""
+"""Logic to retrieve the menu from the website."""
 
 from collections.abc import Generator
 from contextlib import contextmanager

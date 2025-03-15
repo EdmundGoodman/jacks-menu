@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""."""
+"""Logic to parse the menu."""
 
 from enum import Enum, auto
 

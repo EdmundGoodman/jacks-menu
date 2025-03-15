@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""."""
+"""A data structure encoding the menu."""
 
 from dataclasses import dataclass
 

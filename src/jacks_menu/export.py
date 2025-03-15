@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""."""
+"""Logic to export the menu as a markdown file."""
 
 from jacks_menu.constants import DATE, NOW
 from jacks_menu.menu import Menu

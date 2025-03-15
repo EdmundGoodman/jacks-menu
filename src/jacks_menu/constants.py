@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""."""
+"""Constant values used by the tool."""
 
 from datetime import datetime, timezone
 

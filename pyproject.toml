@@ -28,7 +28,7 @@ repository = "https://github.com/EdmundGoodman/jacks-gelato"
 url = "https://edmundgoodman.github.io/jacks-gelato"
 
 [project.scripts]
-jacks-menu = "jacks_menu:main"
+jacks-menu = "jacks_menu.main:cli"
 
 [build-system]
 requires = ["hatchling"]
